@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
+require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 const port = 3000;
@@ -16,7 +17,7 @@ app.get('/', (req, res) => {
 // Route for weather API integration
 app.get('/weather', async (req, res) => {
     const city = req.query.city; // Get the city from the query parameters
-    const apiKey = '0b9aa7abb1631c58e229041574e0e53a'; // Replace with your actual API key
+    const apiKey = process.env.API_KEY; // Access the API key from the environment variable
     const apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
     try {
@@ -34,7 +35,6 @@ app.get('/weather', async (req, res) => {
         res.status(500).send('Error fetching weather data');
     }
 });
-
 
 // Start the server
 app.listen(port, () => {
